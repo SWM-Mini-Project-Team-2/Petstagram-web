@@ -1,7 +1,9 @@
 type Post = {
-  userId: User["id"];
-  imgSrc: string;
-  description: string;
-  like: number;
   createdAt: Date;
+  description: string;
+  id: string;
+  imgSrc: string;
+  like: number;
+  userId: User["id"];
+  view: number;
 };
