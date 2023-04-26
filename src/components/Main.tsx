@@ -1,10 +1,12 @@
 import Header from "./Header";
 import PetCard from "./PetCard";
-import usePost from "../hooks/usePost";
-import { Suspense } from "react";
+import usePosts from "../hooks/usePosts";
+import PetModal from "./PetModal";
+import { useState } from "react";
 
 function Main() {
-  const { posts, setPostQuery } = usePost();
+  const { posts, setPostQuery } = usePosts();
+  const [postId, setPostId] = useState<string | null>(null);
 
   return (
     <div className="bg-[#f8f8f8] h-screen">
@@ -22,8 +24,18 @@ function Main() {
         </div>
         <section className="grid grid-cols-2  gap-4">
           {posts.state === "hasValue" &&
-            posts.contents.map((post) => <PetCard key={post.id} post={post} />)}
+            posts.contents.map((post) => (
+              <div
+                key={post.id}
+                onClick={() => {
+                  setPostId(post.id);
+                }}
+              >
+                <PetCard post={post} />
+              </div>
+            ))}
         </section>
+        <PetModal postId={postId} setPostId={setPostId} />
       </div>
     </div>
   );

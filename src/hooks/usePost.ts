@@ -1,30 +1,15 @@
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { myPostsAtom, postsQuery } from "../states/post";
-import { useState } from "react";
+import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from "recoil";
+import { postQuery } from "../states/post";
+import { likePost } from "../libs/apis/post";
 
-interface Query {
-  sort: number;
-  follow: boolean;
-  like: boolean;
-}
-
-export default function usePost() {
-  const [query, setQuery] = useState<Query>({
-    sort: 0,
-    follow: false,
-    like: false,
-  });
-
-  const myPosts = useRecoilValueLoadable(myPostsAtom);
-  const posts = useRecoilValueLoadable(postsQuery(query));
-
-  const setPostQuery = ({ sort, follow, like }: Partial<Query>) => {
-    setQuery({
-      sort: sort ? sort : query.sort,
-      follow: follow ? follow : query.follow,
-      like: like ? like : query.like,
-    });
+export default function usePost(postId: string | null) {
+  const post = useRecoilValueLoadable(postQuery(postId || ""));
+  const _likePost = () => {
+    if (postId) {
+      likePost(postId);
+    }
+    useRecoilRefresher_UNSTABLE(postQuery(postId || ""))();
   };
 
-  return { myPosts, posts, setPostQuery };
+  return { post, likePost: _likePost };
 }

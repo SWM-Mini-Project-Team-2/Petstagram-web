@@ -19,21 +19,21 @@ export const searchPosts = async ({
 export const searchMyPosts = async () =>
   (await axios.get<{ data: Post[] }>("/post/my")).data.data;
 
-export const searchPost = async (postId: number) =>
+export const searchPost = async (postId: string) =>
   (await axios.get<{ data: Post }>(`/post/${postId}`)).data.data;
 
 export const uploadPost = async (imgSrc: string, description: string) =>
   (await axios.post<{ data: Post }>("/post", { imgSrc, description })).data
     .data;
 
-export const likePost = async (postId: number) =>
+export const likePost = async (postId: string) =>
   (await axios.post<{ data: Post }>(`/post/${postId}/like`)).data.data;
 
-export const checkPostLiked = async (postId: number) =>
+export const checkPostLiked = async (postId: string) =>
   (await axios.get<{ data: Post }>(`/post/${postId}/like`)).data.data;
 
-export const checkPostFollwed = async (postId: number) =>
+export const checkPostFollwed = async (postId: string) =>
   (await axios.get<{ data: Post }>(`/post/${postId}/follow`)).data.data;
 
-export const deletePost = async (postId: number) =>
+export const deletePost = async (postId: string) =>
   (await axios.delete<{ data: Post }>(`/post/${postId}`)).data.data;

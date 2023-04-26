@@ -26,3 +26,10 @@ export const postsQuery = selectorFamily({
       return await postApi.searchPosts({ sort, follow, like });
     },
 });
+
+export const postQuery = selectorFamily({
+  key: "post",
+  get: (postId: string) => async () => {
+    return await postApi.searchPost(postId);
+  },
+});
