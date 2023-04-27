@@ -9,24 +9,31 @@ export const searchPosts = async ({
   sort: number;
   follow: boolean;
   like: boolean;
-}) => (await axios.get(`/post?${qs.stringify({ sort, follow, like })}`)).data;
+}) =>
+  (
+    await axios.get<{ data: Post[] }>(
+      `/post?${qs.stringify({ sort, follow, like })}`
+    )
+  ).data.data;
 
-export const searchMyPosts = async () => (await axios.get("/post/my")).data;
+export const searchMyPosts = async () =>
+  (await axios.get<{ data: Post[] }>("/post/my")).data.data;
 
-export const searchPost = async (postId: number) =>
-  (await axios.get(`/post/${postId}`)).data;
+export const searchPost = async (postId: string) =>
+  (await axios.get<{ data: Post }>(`/post/${postId}`)).data.data;
 
 export const uploadPost = async (imgSrc: string, description: string) =>
-  (await axios.post("/post", { imgSrc, description })).data;
+  (await axios.post<{ data: Post }>("/post", { imgSrc, description })).data
+    .data;
 
-export const likePost = async (postId: number) =>
-  (await axios.post(`/post/${postId}/like`)).data;
+export const likePost = async (postId: string) =>
+  (await axios.post<{ data: Post }>(`/post/${postId}/like`)).data.data;
 
-export const checkPostLiked = async (postId: number) =>
-  (await axios.get(`/post/${postId}/like`)).data;
+export const checkPostLiked = async (postId: string) =>
+  (await axios.get<{ data: Post }>(`/post/${postId}/like`)).data.data;
 
-export const checkPostFollwed = async (postId: number) =>
-  (await axios.get(`/post/${postId}/follow`)).data;
+export const checkPostFollwed = async (postId: string) =>
+  (await axios.get<{ data: Post }>(`/post/${postId}/follow`)).data.data;
 
-export const deletePost = async (postId: number) =>
-  (await axios.delete(`/post/${postId}`)).data;
+export const deletePost = async (postId: string) =>
+  (await axios.delete<{ data: Post }>(`/post/${postId}`)).data.data;
